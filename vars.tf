@@ -1,15 +1,15 @@
 variable "name" {
-  type = "string"
+  type = string
 }
 
 variable "key" {
-  type = "string"
+  type = string
 }
 
 variable "namespace" {
-  type = "string"
+  type = string
 }
 
 variable "context" {
-  type = "string"
+  type = string
 }
