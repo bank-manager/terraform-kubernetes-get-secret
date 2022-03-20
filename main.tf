@@ -4,7 +4,6 @@ data "external" "secret" {
   query = {
     namespace = var.namespace
     name      = var.name
-    key       = var.key
     context   = var.context
   }
 }

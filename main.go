@@ -16,12 +16,11 @@ import (
 type Query struct {
 	Namespace string `json:"namespace"`
 	Name      string `json:"name"`
-	Key       string `json:"key"`
 	Context   string `json:"context"`
 }
 
 type Result struct {
-	Value string `json:"value"`
+	Value map[string][]byte `json:"value"`
 }
 
 func fatal(format string, args ...interface{}) {
@@ -49,10 +48,6 @@ func main() {
 		fatal("missing or empty name parameter")
 	}
 
-	if q.Key == "" {
-		fatal("missing or empty key parameter")
-	}
-
 	if q.Context == "" {
 		fatal("missing or empty context parameter")
 	}
@@ -76,14 +71,14 @@ func main() {
 		fatal("cannot get the %q secret in %q namespace: %v", q.Name, q.Namespace, err)
 	}
 
-	val, ok := secret.Data[q.Key]
-	if !ok {
-		fatal("cannot found the key %q for %q secret in %q namespace", q.Key, q.Name, q.Namespace)
-	}
+	val := secret.Data
+	// if !ok {
+	// 	fatal("cannot found the key %q for %q secret in %q namespace", q.Key, q.Name, q.Namespace)
+	// }
 
-	r := &Result{Value: string(val)}
+	// r := &Result{Value: val}
 
-	o, err := json.MarshalIndent(r, "", "  ")
+	o, err := json.MarshalIndent(val, "", "  ")
 	if err != nil {
 		fatal("cannot marshal indent result: %v", err)
 	}
